@@ -6,10 +6,11 @@ const GoalSchema = new mongoose.Schema({
         required: [true, "Goal name is required"],
     },
 
-    // user: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     required: true,
-    // }
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "User",
+    }
 }, {timestamps: true});
 
 const Goal = mongoose.model("Goal", GoalSchema);
