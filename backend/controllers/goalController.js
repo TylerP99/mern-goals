@@ -8,7 +8,7 @@ const User = require("../models/User");
 const getGoals = asyncHandler(async (req, res, next) => {
     const goals = await Goal.find({user: req.user._id});
 
-    res.status(200).json({goals});
+    res.status(200).json(goals);
 });
 
 // @desc    Create goal and store in db
@@ -28,7 +28,7 @@ const createGoal = asyncHandler(async (req, res, next) => {
 
     const newGoal = await Goal.create(goal);
 
-    res.status(201).json({goal: newGoal});
+    res.status(201).json(newGoal);
 });
 
 // @desc    Update goal in db
@@ -53,14 +53,14 @@ const updateGoal = asyncHandler(async (req, res, next) => {
         throw new Error("User not found");
     }
 
-    if(goal.user.toString() !== req.user._id) {
+    if(goal.user.toString() !== req.user._id.toString()) {
         res.status(401);
         throw new Error("User not authorized");
     }
 
     const updatedGoal = await Goal.findByIdAndUpdate(req.params.id, req.body, {new: true});
 
-    res.status(200).json({goal:goal});
+    res.status(200).json(goal);
 });
 
 // @desc    Delete goal from db
@@ -80,14 +80,15 @@ const deleteGoal = asyncHandler(async (req, res, next) => {
         throw new Error("User not found");
     }
 
-    if(goal.user.toString() !== req.user._id) {
+    if(goal.user.toString() !== req.user._id.toString()) {
+        console.log(goal.user.toString(), req.user._id);
         res.status(401);
         throw new Error("User not authorized");
     }
 
     const deleted = await Goal.findByIdAndDelete(req.params.id);
 
-    res.status(200).json({id: deleted._id});
+    res.status(200).json({_id: deleted._id});
 });
 
 module.exports = {
