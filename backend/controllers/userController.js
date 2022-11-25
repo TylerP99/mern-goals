@@ -73,9 +73,7 @@ const signOutUser = asyncHandler(async (req, res, next) => {
 // @route   GET /api/users/create
 // @access  Private
 const getUser = asyncHandler(async (req, res, next) => {
-    const {_id, username, email} = await User.findById(req.user._id);
-
-    res.status(200).json({id:_id, username: username, email:email});
+    res.status(200).json(req.user);
 });
 
 // Generate JWT
